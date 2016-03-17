@@ -4,6 +4,7 @@ public class DBMain {
 
 	UserCUI ui;
 	ExerciseSession session;
+	ListSessions listSessions;
 
 	// This is our connection to the DB. 
 	DBConnect databaseHandler;
@@ -21,6 +22,7 @@ public class DBMain {
 		databaseHandler = new DBConnect();
 		databaseHandler.connect();
 		session = new ExerciseSession();
+		listSessions = new ListSessions();
 	}
 	
 	// Main loop
@@ -42,11 +44,17 @@ public class DBMain {
 		case 1:
 			saveExercise();
 			break;
-
-
+		case 2: 
+			listAllSessions();
+			break;
 		default:
 			break;
 		}
+	}
+	
+	void listAllSessions()
+	{
+		listSessions.printAllSessions(databaseHandler.conn);
 	}
 	
 	void saveExercise()
