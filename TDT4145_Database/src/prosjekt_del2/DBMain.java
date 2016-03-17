@@ -3,8 +3,8 @@ package prosjekt_del2;
 public class DBMain {
 
 	UserCUI ui;
+	Exercise exercise;
 	ExerciseSession session;
-	ListSessions listSessions;
 
 	// This is our connection to the DB. 
 	DBConnect databaseHandler;
@@ -22,13 +22,12 @@ public class DBMain {
 		databaseHandler = new DBConnect();
 		databaseHandler.connect();
 		session = new ExerciseSession();
-		listSessions = new ListSessions();
+		exercise = new Exercise();
 	}
 	
 	// Main loop
 	void run()
 	{
-		
 		int menuOption;
 		do{
 			ui.showMenu();
@@ -42,22 +41,22 @@ public class DBMain {
 	{
 		switch (methodNumber) {
 		case 1:
-			saveExercise();
+			saveExerciseSession();
 			break;
 		case 2: 
-			listAllSessions();
+			viewAllSessions();
 			break;
+		case 3:
+			saveExercise();
+			break;
+		case 4:
+			viewExercises();
 		default:
 			break;
 		}
 	}
 	
-	void listAllSessions()
-	{
-		listSessions.printAllSessions(databaseHandler.conn);
-	}
-	
-	void saveExercise()
+	void saveExerciseSession()
 	{
 		String[] strings = ui.getExerciseSessionSaveArgs();
 		System.out.println("Arguments are:");
@@ -66,20 +65,22 @@ public class DBMain {
 		session.save(databaseHandler.conn, strings);
 	}
 	
-	void testStrings()
+	void viewAllSessions()
 	{
-		String[] v = {"'2016:03:01 00:00:00'", "1.5", "5", "5", "'Nothing in particular...'", "1"};
-		String updateTable = "INSERT INTO ExerciseSession ";
-		updateTable+= "(TimeStart, Duration, FormScore, PerformanceScore, Note, PersonID)";
-		updateTable+= " values ";
-		updateTable+= " ( ";
-		for(int i=0;i<v.length-1;i++)
-		{
-			updateTable+=v[i] + ", ";
-		}
-		updateTable+=v[v.length-1];
-		updateTable+=")";
-		
-		System.out.println(updateTable);
+		session.printAllSessions(databaseHandler.conn);
+	}
+	
+	void saveExercise()
+	{
+		String[] strings = ui.getExerciseSaveArgs();
+		System.out.println("Arguments are:");
+		for(String s:strings)
+			System.out.println(s);
+		exercise.save(databaseHandler.conn, strings);
+	}
+	
+	void viewExercises()
+	{
+		exercise.printAllExercises(databaseHandler.conn);
 	}
 }

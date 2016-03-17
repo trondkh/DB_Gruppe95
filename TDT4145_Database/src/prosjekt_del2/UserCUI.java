@@ -14,21 +14,23 @@ public class UserCUI {
 	{
 		scanner = new Scanner(System.in);
 		minNumber = 0;
-		maxNumber = 3;
+		maxNumber = 4;
 	}
 	
 	public void showMenu()
 	{
 		String menuTitle = "Choose an option:";
 		String menu0 = "1. Create a traning session";
-		String menu1 = "2. Get traning sessions";
+		String menu1 = "2. View traning sessions";
 		String menu2 = "3. Add exercise";
+		String menu3 = "4. View exercises";
 		String menuExit = "0. Exit";
 
 		System.out.println(menuTitle);
 		System.out.println(menu0);
 		System.out.println(menu1);
 		System.out.println(menu2);
+		System.out.println(menu3);
 		System.out.println(menuExit);
 	}
 	
@@ -64,8 +66,7 @@ public class UserCUI {
 		System.out.println("Performance score:");
 		String performanceScore = scanner.nextLine();
 		System.out.println("Personal note:");
-		String note = scanner.nextLine();
-		note = "'" + note + "'";
+		String note = addSnutters(scanner.nextLine());
 		String personId = "1";
 		return new String[]{startTime,durationTime,formScore,performanceScore,note,personId};
 	}
@@ -77,12 +78,17 @@ public class UserCUI {
 		System.out.println("ExerciseID: ");
 		String ExerciseID = scanner.nextLine();
 		System.out.println("Exercise Name: ");
-		String ExerciseName = scanner.nextLine();
+		String ExerciseName = addSnutters(scanner.nextLine());
 		System.out.println("Description: ");
-		String Description = scanner.nextLine();
+		String Description = addSnutters(scanner.nextLine());
 		System.out.println("Exercise Type: ");
-		String ExerciseType = scanner.nextLine();
+		String ExerciseType = addSnutters(scanner.nextLine());
 		return new String[]{ExerciseID, ExerciseName, Description, ExerciseType};
+	}
+	
+	private String addSnutters(String str)
+	{
+		return "'" + str + "'";
 	}
 	
 	private boolean numberIsValid(int num)
