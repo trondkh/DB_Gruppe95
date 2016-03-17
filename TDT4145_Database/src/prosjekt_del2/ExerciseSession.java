@@ -5,18 +5,20 @@ import java.sql.*;
 public class ExerciseSession {
 
 
-	public void save(Connection conn)
+	public void save(Connection conn,String[] argsOfSession)
 	{
-		String[] v = {"'2016:03:01 00:00:00'", "1.5", "5", "5", "'Nothing in particular...'", "1"};
+		if(argsOfSession.length!=6)
+			throw new IllegalArgumentException("save method in session needs exactly 6 arguments");
+//		String[] v = {"'2016:03:01 00:00:00'", "1.5", "5", "5", "'Nothing in particular...'", "1"};
 		String updateTable = "INSERT INTO ExerciseSession ";
 		updateTable+= "(TimeStart, Duration, FormScore, PerformanceScore, Note, PersonID)";
 		updateTable+= " values ";
 		updateTable+= " ( ";
-		for(int i=0;i<v.length-1;i++)
+		for(int i=0;i<argsOfSession.length-1;i++)
 		{
-			updateTable+=v[i] + ", ";
+			updateTable+=argsOfSession[i] + ", ";
 		}
-		updateTable+=v[v.length-1];
+		updateTable+=argsOfSession[argsOfSession.length-1];
 		updateTable+=")";
 		
 		System.out.println(updateTable);

@@ -2,8 +2,11 @@ package prosjekt_del2;
 
 public class DBMain {
 
+	UserCUI ui;
 	ExerciseSession session;
-	DBConnect test;
+
+	// This is our connection to the DB. 
+	DBConnect databaseHandler;
 
 	public static void main(String[] args) {
 		DBMain dbm = new DBMain();
@@ -11,21 +14,48 @@ public class DBMain {
 		dbm.run();
 	}
 	
+	// All initializations here...
 	void init()
 	{
-		test = new DBConnect();
-		test.connect();
+		ui = new UserCUI();
+		databaseHandler = new DBConnect();
+		databaseHandler.connect();
 		session = new ExerciseSession();
 	}
 	
+	// Main loop
 	void run()
 	{
-		saveExercise();
+		
+		int menuOption;
+		do{
+			ui.showMenu();
+			menuOption = ui.getOption();
+			callMethod(menuOption);
+		} while(menuOption>0);
+		ui.close();
+	}
+	
+	void callMethod(int methodNumber)
+	{
+		switch (methodNumber) {
+		case 1:
+			saveExercise();
+			break;
+
+
+		default:
+			break;
+		}
 	}
 	
 	void saveExercise()
 	{
-		session.save(test.conn);
+		String[] strings = ui.getExerciseSessionSaveArgs();
+		System.out.println("Arguments are:");
+		for(String s:strings)
+			System.out.println(s);
+		session.save(databaseHandler.conn, strings);
 	}
 	
 	void testStrings()
